@@ -27,7 +27,7 @@ Route::group(['prefix' => 'auth'], function () {
     // log in as a user
     Route::post('login', 'Auth\LoginController@login');
     
-    Route::group(['middleware' => 'jwt.auth'], function(){
+    Route::group(['middleware' => 'jwt.auth'], function (){
         // get info about the current user
         Route::get('user', 'Auth\LoginController@user');
 
@@ -35,8 +35,17 @@ Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', 'Auth\LoginController@logout');
     });
 
-    Route::group(['middleware' => 'jwt.refresh'], function(){
+    Route::group(['middleware' => 'jwt.refresh'], function (){
         // refresh the user
       Route::get('refresh', 'Auth\LoginController@refresh');
     });
+});
+
+/*
+| Model routes
+*/
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('locations', 'LocationsController@index');
+    Route::get('locations/{id}', 'LocationsController@show');
+    Route::delete('locations/{id}', 'LocationsController@delete');
 });

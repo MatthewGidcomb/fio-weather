@@ -8,6 +8,7 @@ import App from './App.vue';
 import Landing from './components/Landing.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
+import Home from './components/Home.vue';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -35,9 +36,9 @@ const router = Vue.router = new VueRouter({
             meta: { auth: false }
         },
         {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: Landing,
+            path: '/home',
+            name: 'home',
+            component: Home,
             meta: { auth: true }
         }
     ]
