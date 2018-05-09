@@ -13,6 +13,8 @@ class AddLatLonToLocations extends Migration
      */
     public function up()
     {
+        // SQLite has trouble adding new columns unless they're nullable,
+        // so just drop the table and rebuild it with the new columns
         Schema::dropIfExists('locations');
 
         Schema::create('locations', function (Blueprint $table) {
