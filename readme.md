@@ -31,8 +31,9 @@ Developed using [Laravel Valet](https://laravel.com/docs/5.6/valet).
 - Click refresh to pull new data, with the caveat that the API does not update very often so the content is unlikely to change
 - Click the X to the right of the location item to delete it
 
-## OpenWeatherMap
-I've wanted to
+## Why OpenWeatherMap?
+I've wanted to try out the NWS API for some time, but I wasn't sure I had enough time to figure it out for this project. Of the other APIs evaluated (including [Dark Sky](https://darksky.net/dev) and [Yahoo Weather](https://developer.yahoo.com/weather/)), OpenWeatherMap had relatively short terms of service, an easy to understand API that returned the data I anticipated including in the UI in a single call, and an existing composer package for integrating with Laravel.
+The primary downside is the API's limited support for looking up weather data by city name; it expect a city and country code, which makes working with US cities tricky. This is why integrating Geocoding was necessary. The upside, though, is that the app should support any location in the world (Try adding "McMurdo Station").
 
 ## Future enhancements
 - Consider removing WeatherData model in favor of performing API request (through caching layer) for weather info
