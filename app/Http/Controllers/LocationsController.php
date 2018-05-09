@@ -17,6 +17,16 @@ class LocationsController extends Controller
     public function index(Request $request)
     {
         $user = User::find(Auth::user()->id);
+        $locations = $user->locations;
+
+        // update each location's weather data
+        // this pulls from a cache to save on API calls
+        // TODO: this is the wrong place to do this update;
+        // maybe move this to a cron job?
+        foreach ($locations as $location) {
+            $location->weatherData->updateFromAPI();
+        }
+
         return LocationResource::collection($user->locations);
     }
 
@@ -31,7 +41,7 @@ class LocationsController extends Controller
         $location = Location::newWithCoords($validatedProps);
         $weatherData = WeatherData::createWithAPIData($location);
         $user->locations()->save($location);
-        $location->weatherData()->save(WeatherData::createWithAPIData($location));
+        $location->weatherData()->save(WeatherData::newWithAPIData($location));
 
         if ($location->id && $location->weatherData) {
             return response([], 201);
