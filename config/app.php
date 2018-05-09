@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
 
         /*
          * Application Service Providers...
