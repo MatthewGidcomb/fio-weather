@@ -30,6 +30,11 @@
                     </ul>
                 </div>
             </div>
+            <div class="card-footer">
+                <div class="text-right">
+                    <small>Powered by the <a href="https://openweathermap.org/">OpenWeatherMap.org</a> API</small>
+                </div>
+            </div>
         </div>
     </div>
 </template>
