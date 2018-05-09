@@ -18,10 +18,17 @@ An experimental / proof-of-concept weather app, using [OpenWeatherMap.org](https
 ## Setup
 Developed using [Laravel Valet](https://laravel.com/docs/5.6/valet).
 - Clone the repository
+- `composer install`
 - `npm install`
-- edit .env to add API keys for OpenWeatherMap and Google Maps
+- `cp .env.example .env`
+- `php artisan key:generate`
+- `php artisan jwt:secret`
+- Edit .env to add API keys for OpenWeatherMap and Google Maps
+- `touch database/database.sqlite`
+- `php artisan migrate`
+- Edit `axios.defaults.baseURL in `resources/assets/js/utils.js` to match the URL from which you'll access the site
 - `npm run dev` or `npm run prod` to compile JS and CSS assets
-- access the site
+- Access the site
 
 ## Use
 - Register with a user name and password
