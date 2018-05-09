@@ -9,7 +9,7 @@
                 <form autocomplete="off" @submit.prevent="login" method="post">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" class="form-control" placeholder="User Name" v-model="params.name" required>
+                        <input type="text" id="name" class="form-control" v-model="params.name" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
