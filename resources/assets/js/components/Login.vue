@@ -4,7 +4,7 @@
             <h1 class="card-header">Log in</h1>
             <div class="card-body">
                 <div class="alert alert-danger" v-if="error">
-                    <p>There was an error, unable to sign in with those credentials.</p>
+                    <p>Error with credentials</p>
                 </div>
                 <form autocomplete="off" @submit.prevent="login" method="post">
                     <div class="form-group">
@@ -40,16 +40,17 @@
         },
         methods: {
             login: function() {
-                console.log('login');
                 this.$auth.login({
-                    data: this.params, 
+                    data: this.params,
                     success: function () {},
-                    error: function () {},
+                    error: (resp) => {
+                        this.state = 'error';
+                    },
                     rememberMe: true,
-                    redirect: '/dashboard',
+                    redirect: '/home',
                     fetchUser: true,
-                });       
+                });
             },
         }
-    } 
+    }
 </script>
