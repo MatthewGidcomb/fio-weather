@@ -3,14 +3,14 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import 'bootstrap';
+import { configureAxios } from './utils';
 
 import App from './App.vue';
 import router from './Router.js'
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = 'http://fio-weather.test/api';
-
+configureAxios(axios);
 // vue-auth requires `Vue.router` to be set to the router instance
 Vue.router = router;
 
