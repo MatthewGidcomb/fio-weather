@@ -39,10 +39,11 @@ class LocationsController extends Controller
         ]);
 
         $location = Location::newWithCoords($validatedProps);
-        $weatherData = WeatherData::createWithAPIData($location);
+        $weatherData = WeatherData::newWithAPIData($location);
         $user->locations()->save($location);
-        $location->weatherData()->save(WeatherData::newWithAPIData($location));
+        $location->weatherData()->save($weatherData);
 
+        // check that both location and weather data were saved before returning succes
         if ($location->id && $location->weatherData) {
             return response([], 201);
         } else {
