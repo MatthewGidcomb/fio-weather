@@ -152,6 +152,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
+        Gmopx\LaravelOWM\LaravelOWMServiceProvider::class,
 
         /*
          * Application Service Providers...

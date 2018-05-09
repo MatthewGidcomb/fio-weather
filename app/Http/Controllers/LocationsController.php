@@ -9,39 +9,33 @@ use Geocoder\Laravel\Facades\Geocoder;
 
 use App\User;
 use App\Location;
+use App\WeatherData;
+use App\Http\Resources\Location as LocationResource;
 
 class LocationsController extends Controller
 {
     public function index(Request $request)
     {
         $user = User::find(Auth::user()->id);
-        return response($user->locations);
+        return LocationResource::collection($user->locations);
     }
 
     public function create(Request $request)
     {
+        $user = User::find(Auth::user()->id);
+
         $validatedProps = $request->validate([
             'name' => 'required|string'
         ]);
 
-        // determine latitude and longitude of location using Google Maps API
-        // this allows users to enter either a city, state combination or a
-        // ZIP code while leveraging coordinates for the OpenWeatherMap API,
-        // which is more reliable than trying to pass it city, state or ZIP
-        $geocodeRes = Geocoder::geocode($validatedProps['name'])->get()->first();
-        if ($geocodeRes) {
-            $coords = $geocodeRes->getCoordinates();
-            $validatedProps['lat'] = $coords->getLatitude();
-            $validatedProps['lon'] = $coords->getLongitude();
+        // TODO: can creation of weatherData be moved to an event?
+        $location = $user->locations()->save(Location::newWithCoords($validatedProps));
+        $location->weatherData()->save(WeatherData::createWithAPIData($location));
 
-            // TODO: if a user provides a ZIP code, convert that to a city name
-        }
-
-        $user = User::find(Auth::user()->id);
-        if ($user->locations()->create($validatedProps)) {
-            return response(['status' => 'success']);
+        if ($location->id) {
+            return response([], 201);
         } else {
-            return response(['status' => 'error']);
+            return response(['status' => 'failed to save location'], 422);
         }
     }
 
@@ -51,7 +45,7 @@ class LocationsController extends Controller
         // other users' locations
         $user = User::find(Auth::user()->id);
         $location = $user->locations->find($id);
-        return response($location);
+        return new LocationResource($location);
     }
 
     public function delete(String $id)
@@ -61,9 +55,9 @@ class LocationsController extends Controller
         $user = User::find(Auth::user()->id);
         $location = $user->locations->find($id);
         if ($location && $location->delete()) {
-            return response(['status' => 'success']);
+            return response([], 204);
         } else {
-            return response(['status' => 'error']);
+            return response(['status' => 'unable to delete'], 422);
         }
     }
 }
