@@ -18,16 +18,10 @@
                         <li v-if="!$auth.check()">
                             <router-link class="nav-link" :to="{ name: 'register' }">Register</router-link>
                         </li>
-                        <li class="nav-item dropdown" v-if="$auth.check()">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Username <span class="caret"></span>
+                        <li v-if="$auth.check()">
+                            <a class="nav-link" href="#" @click.prevent="logout()">
+                                Logout
                             </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" @click.prevent="logout()">
-                                    Logout
-                                </a>
-                            </div>
                         </li>
                     </ul>
                 </div>
