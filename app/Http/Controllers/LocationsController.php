@@ -16,6 +16,20 @@ class LocationsController extends Controller
         return response($user->locations);
     }
 
+    public function create(Request $request)
+    {
+        $validatedProps = $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        if ($user->locations()->create($validatedProps)) {
+            return response(['status' => 'success']);
+        } else {
+            return response(['status' => 'error']);
+        }
+    }
+
     public function show(String $id)
     {
         // find location in user collection to guard against a user accessing

@@ -46,6 +46,7 @@ Route::group(['prefix' => 'auth'], function () {
 */
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('locations', 'LocationsController@index');
+    Route::post('locations', 'LocationsController@create');
     Route::get('locations/{id}', 'LocationsController@show');
     Route::delete('locations/{id}', 'LocationsController@delete');
 });

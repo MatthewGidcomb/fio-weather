@@ -12,6 +12,17 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </li>
+                    <li class="list-group-item">
+                        <h2 class="h4">Add a location</h2>
+                        <form autocomplete="off" @submit.prevent="createLocation" method="POST">
+                            <div class="form-group" v-bind:class="{ 'has-error': errors && errors.name }">
+                                <label for="name">City, State or ZIP code</label>
+                                <input type="text" id="name" class="form-control" v-model="newLocation.name" required>
+                                <span class="help-block" v-if="errors && errors.name">{{ errors.name }}</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -24,6 +35,10 @@
             return {
                 loading: true,
                 error: false,
+                newLocation: {
+                    name: ''
+                },
+                errors: {},
                 locations: []
             }
         },
@@ -48,6 +63,17 @@
                         this.loading = false;
                     });
             },
+            createLocation: function() {
+                this.axios.post('locations', this.newLocation)
+                    .then(() => {
+                        this.errors = {};
+                        this.resetForm();
+                        this.fetchLocations();
+                    })
+                    .catch((resp) => {
+                        this.errors = resp.response.data.errors;
+                    });
+            },
             deleteLocation: function(location) {
                 this.axios.delete('locations/' + location.id)
                     .then((response) => {
@@ -56,6 +82,11 @@
                     .catch((response) => {
                         console.error('error deleting location');
                     });
+            },
+            resetForm: function() {
+                this.newLocation = {
+                    name: ''
+                };
             }
         }
     }
