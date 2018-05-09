@@ -21,23 +21,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 | Auth routes
 */
 Route::group(['prefix' => 'auth'], function () {
-    // create a new user
-    Route::post('register', 'Auth\RegisterController@create');
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
 
-    // log in as a user
-    Route::post('login', 'Auth\LoginController@login');
-    
     Route::group(['middleware' => 'jwt.auth'], function (){
-        // get info about the current user
-        Route::get('user', 'Auth\LoginController@user');
-
-        // log out current user
-        Route::post('logout', 'Auth\LoginController@logout');
+        Route::get('user', 'AuthController@user');
+        Route::post('logout', 'AuthController@logout');
     });
 
     Route::group(['middleware' => 'jwt.refresh'], function (){
-        // refresh the user
-      Route::get('refresh', 'Auth\LoginController@refresh');
+      Route::get('refresh', 'AuthController@refresh');
     });
 });
 
