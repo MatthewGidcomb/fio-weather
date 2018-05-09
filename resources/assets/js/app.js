@@ -5,7 +5,6 @@ import VueAxios from 'vue-axios';
 import 'bootstrap';
 
 import App from './App.vue';
-import Landing from './components/Landing.vue';
 import Login from './components/Login.vue';
 import Register from './components/Register.vue';
 import Home from './components/Home.vue';
@@ -20,8 +19,9 @@ const router = Vue.router = new VueRouter({
     routes: [
         {
             path: '/',
-            name: 'landing',
-            component: Landing
+            name: 'home',
+            component: Home,
+            meta: { auth: true }
         },
         {
             path: '/login',
@@ -34,12 +34,6 @@ const router = Vue.router = new VueRouter({
             name: 'register',
             component: Register,
             meta: { auth: false }
-        },
-        {
-            path: '/home',
-            name: 'home',
-            component: Home,
-            meta: { auth: true }
         }
     ]
 });

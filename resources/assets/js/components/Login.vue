@@ -15,6 +15,9 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" class="form-control" v-model="params.password" required>
                     </div>
+                    <div class="form-group">
+                        Don't have an account? <router-link :to="{ name: 'register' }">Register</router-link>
+                    </div>
                     <button type="submit" class="btn btn-primary">Sign in</button>
                 </form>
             </div>
@@ -47,7 +50,7 @@
                         this.state = 'error';
                     },
                     rememberMe: true,
-                    redirect: '/home',
+                    redirect: '/',
                     fetchUser: true,
                 });
             },

@@ -24,7 +24,7 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" @click.prevent="$auth.logout()">
+                                <a class="dropdown-item" href="#" @click.prevent="logout()">
                                     Logout
                                 </a>
                             </div>
@@ -40,6 +40,14 @@
 </template>
 <script>
     export default {
-    
+        methods: {
+            logout: function() {
+                // log out of the application and navigate to login page
+                // (navigation is necessary to ensure logout doesn't leave the
+                //  user's locations on the page)
+                this.$auth.logout();
+                this.$router.push('login');
+            }
+        }
     }
 </script>
