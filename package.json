@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@websanova/vue-auth": "^2.21.10-beta",
+        "open-weather-icons": "0.0.7",
         "vue-axios": "^2.1.1",
         "vue-router": "^3.0.1"
     }
