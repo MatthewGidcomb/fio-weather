@@ -35,15 +35,24 @@ class WeatherData extends Model
 
     public static function createWithAPIData(Location $location)
     {
-        // TODO: clean all this up; can this be a facade?
-        $owm = new LaravelOWM();
-        return WeatherData::createFromOWMResponse($owm->getCurrentWeather([
-            'lat' => $location->lat, 'lon' => $location->lon
-        ], 'en', 'imperial'));
+        return WeatherData::createFromOWMResponse(WeatherData::getCurrentWeather($location));
     }
 
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    private static function getCurrentWeather(Location $location)
+    {
+        // TODO: clean all this up; can this be a facade?
+        $owm = new LaravelOWM();
+        $params = ['lat' => $location->lat, 'lon' => $location->lon];
+        $lang = config('laravel-own')['lang'];
+        $units = 'imperial';
+        $cache = true;
+        $cacheTime = 900; // 900 seconds == 15 minutes
+        return $owm->getCurrentWeather($params, $lang, $units, $cache, $cacheTime);
+
     }
 }

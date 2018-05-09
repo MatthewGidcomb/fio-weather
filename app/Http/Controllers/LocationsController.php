@@ -28,11 +28,12 @@ class LocationsController extends Controller
             'name' => 'required|string'
         ]);
 
-        // TODO: can creation of weatherData be moved to an event?
-        $location = $user->locations()->save(Location::newWithCoords($validatedProps));
+        $location = Location::newWithCoords($validatedProps);
+        $weatherData = WeatherData::createWithAPIData($location);
+        $user->locations()->save($location);
         $location->weatherData()->save(WeatherData::createWithAPIData($location));
 
-        if ($location->id) {
+        if ($location->id && $location->weatherData) {
             return response([], 201);
         } else {
             return response(['status' => 'failed to save location'], 422);
