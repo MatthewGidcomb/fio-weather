@@ -32,11 +32,8 @@ class Location extends Model
         if ($geocodeRes) {
             $location->lat = $geocodeRes->getCoordinates()->getLatitude();
             $location->lon = $geocodeRes->getCoordinates()->getLongitude();
-
-            // TODO: if a user provides a ZIP code, convert that to a city name
         }
 
-        // TODO: create WeatherData
         return $location;
     }
 
